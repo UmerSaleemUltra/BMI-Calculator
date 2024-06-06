@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BMI Calculator</title>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #343a40; /* Dark background color */
+        color: #fff; /* Text color */
+    }
+    .container {
+        margin-top: 50px;
+        padding: 20px;
+        background-color: #212529; /* Darker container background color */
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); /* White shadow */
+    }
+    h1 {
+        text-align: center;
+    }
+    label {
+        font-weight: bold;
+    }
+    input[type="text"] {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+    }
+    input[type="submit"] {
+        width: 100%;
+        padding: 10px;
+        background-color: #007bff; /* Primary button color */
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    #result {
+        margin-top: 20px;
+        font-weight: bold;
+    }
+    #diet {
+        margin-top: 20px;
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>BMI Calculator</h1>
+    <form id="bmiForm">
+        <div class="form-group">
+            <label for="weight">Weight (kg):</label>
+            <input type="text" class="form-control" id="weight" placeholder="Enter your weight">
+        </div>
+        <div class="form-group">
+            <label for="height">Height (cm):</label>
+            <input type="text" class="form-control" id="height" placeholder="Enter your height">
+        </div>
+        <input type="submit" class="btn btn-primary" value="Calculate BMI">
+    </form>
+    <div id="result"></div>
+    <div id="diet"></div>
+</div>
+
+<script>
+    document.getElementById('bmiForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        var weight = parseFloat(document.getElementById('weight').value);
+        var height = parseFloat(document.getElementById('height').value) / 100; // convert height to meters
+        
+        if (!isNaN(weight) && !isNaN(height) && weight > 0 && height > 0) {
+            var bmi = weight / (height * height);
+            document.getElementById('result').innerHTML = 'Your BMI is: ' + bmi.toFixed(2);
+            
+            var dietSuggestion = '';
+            if (bmi < 18.5) {
+                dietSuggestion = 'You are underweight. Try to eat more protein and healthy fats, and increase your calorie intake.';
+            } else if (bmi >= 18.5 && bmi < 25) {
+                dietSuggestion = 'You have a normal weight. Maintain a balanced diet with plenty of fruits, vegetables, lean protein, and whole grains.';
+            } else if (bmi >= 25 && bmi < 30) {
+                dietSuggestion = 'You are overweight. Focus on portion control, reduce intake of sugary and fatty foods, and increase physical activity.';
+            } else {
+                dietSuggestion = 'You are obese. Consult with a healthcare professional for a personalized diet and exercise plan.';
+            }
+            
+            document.getElementById('diet').innerHTML = '<h3>Diet Suggestion:</h3>' + dietSuggestion;
+        } else {
+            document.getElementById('result').innerHTML = 'Please enter valid weight and height values.';
+            document.getElementById('diet').innerHTML = ''; // Clear diet suggestion if invalid values are entered
+        }
+    });
+</script>
+</body>
+</html>
